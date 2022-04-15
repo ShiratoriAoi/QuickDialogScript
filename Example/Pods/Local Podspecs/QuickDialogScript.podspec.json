@@ -1,0 +1,22 @@
+{
+  "name": "QuickDialogScript",
+  "version": "0.1.0",
+  "summary": "A short description of QuickDialogScript.",
+  "description": "TODO: Add long description of the pod here.",
+  "homepage": "https://github.com/Aoi SHIRATORI/QuickDialogScript",
+  "license": {
+    "type": "MIT",
+    "file": "LICENSE"
+  },
+  "authors": {
+    "Aoi SHIRATORI": "aoy.shiratori@gmail.com"
+  },
+  "source": {
+    "git": "https://github.com/Aoi SHIRATORI/QuickDialogScript.git",
+    "tag": "0.1.0"
+  },
+  "platforms": {
+    "ios": "9.0"
+  },
+  "source_files": "QuickDialogScript/Classes/**/*"
+}

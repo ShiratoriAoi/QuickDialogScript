@@ -1,0 +1,6 @@
+framework module QuickDialogScript {
+  umbrella header "QuickDialogScript-umbrella.h"
+
+  export *
+  module * { export * }
+}

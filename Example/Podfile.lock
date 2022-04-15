@@ -1,0 +1,16 @@
+PODS:
+  - QuickDialogScript (0.1.0)
+
+DEPENDENCIES:
+  - QuickDialogScript (from `../`)
+
+EXTERNAL SOURCES:
+  QuickDialogScript:
+    :path: "../"
+
+SPEC CHECKSUMS:
+  QuickDialogScript: c5a4c4e0ec0ec2a4e9ce24e52c4b3e5a9cf00931
+
+PODFILE CHECKSUM: bd01b79f77449fd479d6fd89e76770bb43106d15
+
+COCOAPODS: 1.11.3
