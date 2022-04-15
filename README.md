@@ -1,6 +1,5 @@
 # QuickDialogScript
 
-[![CI Status](https://img.shields.io/travis/Aoi SHIRATORI/QuickDialogScript.svg?style=flat)](https://travis-ci.org/Aoi SHIRATORI/QuickDialogScript)
 [![Version](https://img.shields.io/cocoapods/v/QuickDialogScript.svg?style=flat)](https://cocoapods.org/pods/QuickDialogScript)
 [![License](https://img.shields.io/cocoapods/l/QuickDialogScript.svg?style=flat)](https://cocoapods.org/pods/QuickDialogScript)
 [![Platform](https://img.shields.io/cocoapods/p/QuickDialogScript.svg?style=flat)](https://cocoapods.org/pods/QuickDialogScript)
@@ -8,8 +7,6 @@
 ## Example
 
 To run the example project, clone the repo, and run `pod install` from the Example directory first.
-
-## Requirements
 
 ## Installation
 
