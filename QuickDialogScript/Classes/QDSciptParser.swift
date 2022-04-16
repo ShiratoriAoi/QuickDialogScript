@@ -2,49 +2,42 @@ import Foundation
 import FootlessParser
 
 //------------------------------------------------------------------
-//  BNF Form Grammar for QuickDialogScript
+//  BNF Grammar for QuickDialogScript
+//  [  ] : optional 
+//  +    : one or more
 // 
-//  <QuickDialogScript> ::= <QuickDialogs>
+//  <QuickDialogScript> ::= <QuickDialog>+
 //
-//  <QuickDialogs> ::= <QuickDialog> | <QuickDialog> <QuickDialogs>
-//  <QuickDialog>  ::= "qd " <name> <sp> <name> <br> <sections> "endqd" <br> 
+//  <QuickDialog>  ::= "qd " <name> <sp> <name> <br> <section>+ "endqd" <br> 
 //                      first name is key, second one is title
 //
-//  <sections> ::= <section> <br> | <section> <br> <sections> 
-//  <section>  ::= "sec " <name> <br> <elements> "endsec" 
-//               | "sec_user" <name> <br>
+//  <section>  ::= "sec " <name> <br> (<element> <br>)+ "endsec" <br>
+//               | "sec_user " <name> <br>
 //
-//  <elements> ::= <element> <br> | <element> <br> <elements>
-//  <element>  ::= <btn> | <lbl> | <arw> | <img> | <bool>
+//  <element>  ::= <btn> | <lbl> | <arw> | <img> 
+//               | <txt> | <txp> | <bool> | <user>
 //
-//  <btn>  ::= "btn " <name> <sp> <action> 
-//           | "btn " <name> <sp> <action> <sp> <tag>
-//  <lbl>  ::= "lbl " <name> <sp> <action> 
-//           | "lbl " <name> <sp> <action> <sp> <tag>
-//  <arw>  ::= "arw " <name> <sp> <action> 
-//           | "arw " <name> <sp> <action> <sp> <tag>
-//  <img>  ::= "img " <name> <sp> <name> <sp> <action> 
-//           | "img " <name> <sp> <name> <sp> <action> <sp> <tag> 
+//  <btn>  ::= "btn" <sp> <name> <sp> <action> [<sp> <tag>]
+//  <lbl>  ::= "lbl" <sp> <name> <sp> <action> [<sp> <tag>]
+//  <arw>  ::= "arw" <sp> <name> <sp> <action> [<sp> <tag>]
+//  <img>  ::= "img" <sp> <name> <sp> <name> <sp> <action> [<sp> <tag>]
 //             first name is title, second one is filename
-//  <txt>  ::= "txt " <name>
-//  <txp>  ::= "txp " <name> <name> 
+//  <txt>  ::= "txt" <sp> <name>
+//  <txp>  ::= "txp" <sp> <name> <sp> <name> 
 //             first name is title, second one is filename
-//  <bool> ::= "bool " <name> 
-//           | "bool " <name> <tag>
-//  <user> ::= "user " 
-//           | "user " <tag>
+//  <bool> ::= "bool" <sp> <name> [<sp> <tag>]
+//  <user> ::= "user" [<sp> <tag>]
 //
-//  <action> ::= "url " <name>
-//             | "sub " <name> 
-//             | "dismiss " 
-//             | "none " 
-//             | "user "
+//  <action> ::= "url"     <sp> <name>
+//             | "sub"     <sp> <name> 
+//             | "dismiss" 
+//             | "none"      
+//             | "user"    
 //
-//  <name>    ::= <letters>
+//  <name>    ::= <letter>+
 //  <letter>  ::= "a" ~ "z" | "A" ~ "Z"
-//  <letters> ::= <letter> | <letter> <letters>
-//  <br>      ... <br> means line breaks
-//  <sp>      ... <sp> means spaces
+//  <br>      ... <br> means line breaks (and spaces.)
+//  <sp>      ... <sp> means spaces.
 //  
 //--------------------------------------------------------------------
 
