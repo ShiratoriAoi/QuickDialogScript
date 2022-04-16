@@ -2,21 +2,50 @@ import Foundation
 import FootlessParser
 
 //------------------------------------------------------------------
-//name = "~~~"
-//quickdialogs = (<quickdialog>)+
-//quickdialog = qd <name> <name> (<section>)+ endqd //first name key, second title
-//section = sec <name> (<element>)+ endsec | sec_user <name>
-//element = <btn> | <lbl> | <arw> | <img> | <bool>
-//btn = btn <name> <action> (<tag>)
-//lbl = lbl <name> <action> (<tag>)
-//arw = arw <name> <action> (<tag>)
-//img = img <name> <name> <action> (<tag>) //first name title, second name filename
-//txt = txt <name>
-//txp = txp <name> <name> //first name title, second filename
-//bool = bool <name> (<tag>)
-//user = user <tag>
+//  BNF Form Grammar for QuickDialogScript
+// 
+//  <QuickDialogScript> ::= <QuickDialogs>
 //
-//action = url <name> | sub <name> | dismiss | none | user
+//  <QuickDialogs> ::= <QuickDialog> | <QuickDialog> <QuickDialogs>
+//  <QuickDialog>  ::= "qd " <name> <sp> <name> <br> <sections> "endqd" <br> 
+//                      first name is key, second one is title
+//
+//  <sections> ::= <section> <br> | <section> <br> <sections> 
+//  <section>  ::= "sec " <name> <br> <elements> "endsec" 
+//               | "sec_user" <name> <br>
+//
+//  <elements> ::= <element> <br> | <element> <br> <elements>
+//  <element>  ::= <btn> | <lbl> | <arw> | <img> | <bool>
+//
+//  <btn>  ::= "btn " <name> <sp> <action> 
+//           | "btn " <name> <sp> <action> <sp> <tag>
+//  <lbl>  ::= "lbl " <name> <sp> <action> 
+//           | "lbl " <name> <sp> <action> <sp> <tag>
+//  <arw>  ::= "arw " <name> <sp> <action> 
+//           | "arw " <name> <sp> <action> <sp> <tag>
+//  <img>  ::= "img " <name> <sp> <name> <sp> <action> 
+//           | "img " <name> <sp> <name> <sp> <action> <sp> <tag> 
+//             first name is title, second one is filename
+//  <txt>  ::= "txt " <name>
+//  <txp>  ::= "txp " <name> <name> 
+//             first name is title, second one is filename
+//  <bool> ::= "bool " <name> 
+//           | "bool " <name> <tag>
+//  <user> ::= "user " 
+//           | "user " <tag>
+//
+//  <action> ::= "url " <name>
+//             | "sub " <name> 
+//             | "dismiss " 
+//             | "none " 
+//             | "user "
+//
+//  <name>    ::= <letters>
+//  <letter>  ::= "a" ~ "z" | "A" ~ "Z"
+//  <letters> ::= <letter> | <letter> <letters>
+//  <br>      ... <br> means line breaks
+//  <sp>      ... <sp> means spaces
+//  
 //--------------------------------------------------------------------
 
 precedencegroup MyGroup {
@@ -38,30 +67,30 @@ public func *** <T,A,B> (p: Parser<A,B>, q: Parser<T, [A]>) -> Parser<T, B> {
 }
 
 
-struct ScriptedQDNCRoot {
+struct QDSRoot {
     let key  : String
     let title: String
-	let sections: [ScriptedQDNCSection]
+	let sections: [QDSSection]
 }
 
-enum ScriptedQDNCSection {
-    case Script(title: String, elements: [ScriptedQDNCElement])
+enum QDSSection {
+    case Script(title: String, elements: [QDSElement])
     case User(key: String)
 }
 
 //TODO: bool float
-enum ScriptedQDNCElement {
-	case Button(title: String, action: ScriptedQDNCAction, tag: Int)
-    case Label(title: String, action: ScriptedQDNCAction, tag: Int)
-    case Arrow(title: String, action: ScriptedQDNCAction, tag: Int)
-    case Icon(title: String, filename: String, action: ScriptedQDNCAction, tag: Int)
+enum QDSElement {
+	case Button(title: String, action: QDSAction, tag: Int)
+    case Label(title: String, action: QDSAction, tag: Int)
+    case Arrow(title: String, action: QDSAction, tag: Int)
+    case Icon(title: String, filename: String, action: QDSAction, tag: Int)
     case Bool(title: String, key: String, tag: Int)
     case Text(filename: String)
     case TextPage(title: String, filename: String)
     case User(tag: Int)
 }
 
-enum ScriptedQDNCAction {
+enum QDSAction {
 	case url(String)
 	case dismiss
 	case sub(String)//subDialog
@@ -69,9 +98,9 @@ enum ScriptedQDNCAction {
     case user
 }
 
-class ScriptedQDNCParserManager {
+class QDSParserManager {
 	var wordParser: Parser<Character, [String]>!
-    var qdsParser:  Parser<String, [ScriptedQDNCRoot]>!
+    var qdsParser:  Parser<String, [QDSRoot]>!
     
     init() {
         //------------------------------
@@ -100,54 +129,54 @@ class ScriptedQDNCParserManager {
         //------------------------------
         //action
         //------------------------------
-        let url = { ScriptedQDNCAction.url($0) } <^> (strMatch("url") *> name)
-        let dismiss = { _ in ScriptedQDNCAction.dismiss } <^> strMatch("dismiss")
-        let none = { _ in ScriptedQDNCAction.none } <^> strMatch("none")
-        let sub = { ScriptedQDNCAction.sub($0) } <^> (strMatch("sub") *> name)
-        let user = { _ in ScriptedQDNCAction.user } <^> (strMatch("user"))
+        let url = { QDSAction.url($0) } <^> (strMatch("url") *> name)
+        let dismiss = { _ in QDSAction.dismiss } <^> strMatch("dismiss")
+        let none = { _ in QDSAction.none } <^> strMatch("none")
+        let sub = { QDSAction.sub($0) } <^> (strMatch("sub") *> name)
+        let user = { _ in QDSAction.user } <^> (strMatch("user"))
         let action =  url <|> dismiss <|> none <|> sub <|> user
 
         //------------------------------
         //element
         //------------------------------
-        func makeButton(title: String, action: ScriptedQDNCAction, tag: Int) -> ScriptedQDNCElement {
+        func makeButton(title: String, action: QDSAction, tag: Int) -> QDSElement {
             print("btn " + title)
-            return ScriptedQDNCElement.Button(title: title, action: action, tag: tag)
+            return QDSElement.Button(title: title, action: action, tag: tag)
         }
         let button = curry(makeButton) <^> (strMatch("btn") *> name) <*> action <*> tag
-        func makeLabel(title: String, action: ScriptedQDNCAction, tag: Int) -> ScriptedQDNCElement {
+        func makeLabel(title: String, action: QDSAction, tag: Int) -> QDSElement {
             print("lbl " + title)
-            return ScriptedQDNCElement.Label(title: title, action: action, tag: tag)
+            return QDSElement.Label(title: title, action: action, tag: tag)
         }
         let label = curry(makeLabel) <^> (strMatch("lbl") *> name) <*> action <*> tag
-        func makeArrow(title: String, action: ScriptedQDNCAction, tag: Int) -> ScriptedQDNCElement {
+        func makeArrow(title: String, action: QDSAction, tag: Int) -> QDSElement {
             print("arw " + title)
-            return ScriptedQDNCElement.Arrow(title: title, action: action, tag: tag)
+            return QDSElement.Arrow(title: title, action: action, tag: tag)
         }
         let arrow = curry(makeArrow) <^> (strMatch("arw") *> name) <*> action <*> tag
-        func makeIcon(title: String,filename: String, action: ScriptedQDNCAction, tag: Int) -> ScriptedQDNCElement {
+        func makeIcon(title: String,filename: String, action: QDSAction, tag: Int) -> QDSElement {
             print("img " + title)
-            return ScriptedQDNCElement.Icon(title: title, filename: filename, action: action, tag: tag)
+            return QDSElement.Icon(title: title, filename: filename, action: action, tag: tag)
         }
         let icon = curry(makeIcon) <^> (strMatch("img") *> name) <*> name <*> action <*> tag
-        func makeBool(title: String, key: String, tag: Int) -> ScriptedQDNCElement {
+        func makeBool(title: String, key: String, tag: Int) -> QDSElement {
             print("bool " + title)
-            return ScriptedQDNCElement.Bool(title: title,key: key, tag: tag)
+            return QDSElement.Bool(title: title,key: key, tag: tag)
         }
         let bool = curry(makeBool) <^> (strMatch("bool") *> name) <*> name <*> tag
-        func makeText(filename: String) -> ScriptedQDNCElement {
+        func makeText(filename: String) -> QDSElement {
             print("txt " + filename)
-            return ScriptedQDNCElement.Text(filename: filename)
+            return QDSElement.Text(filename: filename)
         }
         let text = makeText <^> (strMatch("txt") *> name)
-        func makeTextPage(title: String, filename: String) -> ScriptedQDNCElement {
+        func makeTextPage(title: String, filename: String) -> QDSElement {
             print("txp " + title)
-            return ScriptedQDNCElement.TextPage(title: title, filename: filename)
+            return QDSElement.TextPage(title: title, filename: filename)
         }
         let textpage = curry(makeTextPage) <^> (strMatch("txp") *> name) <*> name
-        func makeUserElm(tag: Int) -> ScriptedQDNCElement {
+        func makeUserElm(tag: Int) -> QDSElement {
             print("user \(tag)")
-            return ScriptedQDNCElement.User(tag: tag)
+            return QDSElement.User(tag: tag)
         }
         let userElm = makeUserElm <^> (strMatch("user") *> tag)
 
@@ -156,20 +185,20 @@ class ScriptedQDNCParserManager {
         //------------------------------
         //section
         //------------------------------
-        func makeSection(title: String, elements: [ScriptedQDNCElement])->ScriptedQDNCSection {
+        func makeSection(title: String, elements: [QDSElement])->QDSSection {
             print("sec " + title)
-            return ScriptedQDNCSection.Script(title: title, elements: elements)
+            return QDSSection.Script(title: title, elements: elements)
         }
 		let section = curry(makeSection) <^> (strMatch("sec") *> name) <*> (oneOrMore(elementParser) <* strMatch("endsec") )
-        let sec_user = { ScriptedQDNCSection.User(key: $0) } <^> (strMatch("sec_user") *> name)
+        let sec_user = { QDSSection.User(key: $0) } <^> (strMatch("sec_user") *> name)
         let sectionParser = section <|> sec_user
 
         //------------------------------
         //dialog
         //------------------------------
-        func makeQuickDialog(key: String, title: String, sections: [ScriptedQDNCSection])->ScriptedQDNCRoot {
+        func makeQuickDialog(key: String, title: String, sections: [QDSSection])->QDSRoot {
             print("qd " + key + "," + title)
-            return ScriptedQDNCRoot(key: key, title: title, sections: sections)
+            return QDSRoot(key: key, title: title, sections: sections)
         }
         let quickDialogParser = curry(makeQuickDialog) <^> (strMatch("qd") *> name) <*> name <*> (oneOrMore(sectionParser) <* strMatch("endqd"))
 		

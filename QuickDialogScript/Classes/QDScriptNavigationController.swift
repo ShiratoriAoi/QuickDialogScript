@@ -1,29 +1,28 @@
 //
-//  ScriptedQuickDialogNavigationController.swift
-//  ScriptedQuickDialogNavigationController
+//  QDScriptNavigationController.swift
 //
-//  Created by 開発アカウント on 2018/04/07.
-//  Copyright © 2018年 polyester. All rights reserved.
+//  Created by ShiratoriAoi on 2018/04/07.
+//  Copyright © 2018年 ShiratoriAoi. All rights reserved.
 //
 
 import UIKit
 import QuickDialog
 import FootlessParser
 
-@objc public protocol ScriptedQDNCDelegate : AnyObject{
+@objc public protocol QDSDelegate : AnyObject{
     func actionFired(tag: Int)
     func generateElement(tag: Int) -> QElement
     func generateSection(key: String) -> QSection?
     @objc optional func willMove(to quickDialogController: QuickDialogController, key: String)
 }
 
-extension ScriptedQDNCDelegate {
+extension QDSDelegate {
     func actionFired(tag: Int) {
         //no process
     }
     
     func generateElement(tag: Int) -> QElement {
-        let elm = QLabelElement(title: "ScriptedQDNCDelegate.generateElement tag=\(tag)", value: nil)!
+        let elm = QLabelElement(title: "QDSDelegate.generateElement tag=\(tag)", value: nil)!
         return elm
     }
     
@@ -33,14 +32,14 @@ extension ScriptedQDNCDelegate {
     
 }
 
-public class ScriptedQuickDialogNavigationControllerManager {
+public class QDSNavigationControllerManager {
     //private variables
-    private let qds: [ScriptedQDNCRoot]
+    private let qds: [QDSRoot]
     private var elementDic: [Int: QElement] = [:]
     private var _navigationController: UINavigationController? = nil
     
     //variables
-    public weak var delegate: ScriptedQDNCDelegate? = nil
+    public weak var delegate: QDSDelegate? = nil
 
     //accessor
     public var navigationController: UINavigationController {
@@ -65,7 +64,7 @@ public class ScriptedQuickDialogNavigationControllerManager {
             let fileURL = URL(fileURLWithPath: path)
             print("fileURL: \(fileURL)")
             do {
-                let manager = ScriptedQDNCParserManager()
+                let manager = QDSParserManager()
                 
                 let text = try String(contentsOf: fileURL, encoding: .utf8)
                 let words = try parse(manager.wordParser, text)
@@ -74,11 +73,11 @@ public class ScriptedQuickDialogNavigationControllerManager {
                 qds = try parse(manager.qdsParser, words)
             } catch {
                 qds = []
-                print("failed reading \(scriptFilename) in ScriptedQDNCParserManager.init")
+                print("failed reading \(scriptFilename) in QDSParserManager.init")
             }
         } else {
             qds = []
-            print("failed in ScriptedQDNCParserManager.init")
+            print("failed in QDSParserManager.init")
         }
 	}
 
@@ -98,7 +97,7 @@ public class ScriptedQuickDialogNavigationControllerManager {
         let qdc = QuickDialogController(forRoot: root)!
 
         //element generator
-        func generateElement(data: ScriptedQDNCElement) -> (QElement, Int) {
+        func generateElement(data: QDSElement) -> (QElement, Int) {
             switch data {
             case .Button(let title, let action, let tag):
                 let btn = QButtonElement(title: title)!
@@ -109,7 +108,7 @@ public class ScriptedQuickDialogNavigationControllerManager {
                 return (btn, tag)
             case .Label(let title, let action, let tag):
                 let lbl = QLabelElement(title: title, value: nil)!
-                if case ScriptedQDNCAction.none = action {
+                if case QDSAction.none = action {
                     //no process
                 } else {
                     lbl.onSelected = { [unowned self] in
@@ -120,7 +119,7 @@ public class ScriptedQuickDialogNavigationControllerManager {
             case .Arrow(let title, let action, let tag):
                 let lbl = QLabelElement(title: title, value: nil)!
                 lbl.accessoryType = .disclosureIndicator
-                if case ScriptedQDNCAction.none = action {
+                if case QDSAction.none = action {
                     //no process
                 } else {
                     lbl.onSelected = { [unowned self] in
@@ -226,7 +225,7 @@ public class ScriptedQuickDialogNavigationControllerManager {
     }
 
     //callback for action
-    fileprivate func actionFired(action: ScriptedQDNCAction, tag: Int) {
+    fileprivate func actionFired(action: QDSAction, tag: Int) {
         switch action {
         case .url(let str):
             let url = URL(string: str)!
