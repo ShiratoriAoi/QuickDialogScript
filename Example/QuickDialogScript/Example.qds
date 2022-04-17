@@ -1,0 +1,45 @@
+qd "launch" "Example"
+    sec "text"
+        txt "dat/poem.txt"
+        txp "text page" "dat/poem.txt"
+    endsec
+
+    sec "buttons"
+        btn "open sub dialog"    sub "BLTsandwich"
+        btn "no action button"   none
+        btn "user action button" user 100
+        arw "arrow button"       sub "BLTsandwich"
+        user 200
+    endsec
+
+    sec "Settings"
+        bool "Hello, World!" "Example_UserDefaultsKey_Hoge"
+    endsec
+
+    sec_user "user_section"
+
+    sec "polyester apps"
+        img "TouchTheNumbersColored" "dat/icon_ttn.png" url "itms-apps://itunes.apple.com/jp/app/id555048122?mt=8"
+        img "スクショ連結くん" "dat/icon_ssr.png" url  "itms-apps://itunes.apple.com/jp/app/id1078666497?mt=8"
+        img "ポップパズル"           "dat/icon_pp.png"  url "itms-apps://itunes.apple.com/jp/app/id1575799879?mt=8"
+        img "スマートフセン"         "dat/icon_gtm.png" url "itms-apps://itunes.apple.com/jp/app/id1461449206?mt=8"
+    endsec
+
+    sec "others"
+        txp "licence" "dat/licence.txt"
+    endsec
+
+    sec ""
+        btn "back" dismiss
+    endsec
+endqd
+
+qd "BLTsandwich" "BLT sandwich"
+    sec ""
+        lbl "bacon"  none
+        lbl "letas"  none
+        lbl "tamago" none
+    endsec
+endqd
+
+

@@ -176,9 +176,13 @@ code_sign_if_enabled() {
 }
 
 if [[ "$CONFIGURATION" == "Debug" ]]; then
+  install_framework "${BUILT_PRODUCTS_DIR}/FootlessParser/FootlessParser.framework"
+  install_framework "${BUILT_PRODUCTS_DIR}/QuickDialog/QuickDialog.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/QuickDialogScript/QuickDialogScript.framework"
 fi
 if [[ "$CONFIGURATION" == "Release" ]]; then
+  install_framework "${BUILT_PRODUCTS_DIR}/FootlessParser/FootlessParser.framework"
+  install_framework "${BUILT_PRODUCTS_DIR}/QuickDialog/QuickDialog.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/QuickDialogScript/QuickDialogScript.framework"
 fi
 if [ "${COCOAPODS_PARALLEL_CODE_SIGN}" == "true" ]; then

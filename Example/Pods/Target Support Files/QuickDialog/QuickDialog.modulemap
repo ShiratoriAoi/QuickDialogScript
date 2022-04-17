@@ -1,0 +1,6 @@
+framework module QuickDialog {
+  umbrella header "QuickDialog-umbrella.h"
+
+  export *
+  module * { export * }
+}

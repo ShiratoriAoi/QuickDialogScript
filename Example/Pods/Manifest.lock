@@ -1,16 +1,29 @@
 PODS:
-  - QuickDialogScript (0.1.0)
+  - FootlessParser (0.5.2)
+  - QuickDialog (1.1.0):
+    - QuickDialog/Core (= 1.1.0)
+  - QuickDialog/Core (1.1.0)
+  - QuickDialogScript (0.1.0):
+    - FootlessParser (~> 0.5.1)
+    - QuickDialog
 
 DEPENDENCIES:
   - QuickDialogScript (from `../`)
+
+SPEC REPOS:
+  trunk:
+    - FootlessParser
+    - QuickDialog
 
 EXTERNAL SOURCES:
   QuickDialogScript:
     :path: "../"
 
 SPEC CHECKSUMS:
-  QuickDialogScript: c5a4c4e0ec0ec2a4e9ce24e52c4b3e5a9cf00931
+  FootlessParser: 521916d592fa6cba06cfca6f4b5d4f5a2d49175a
+  QuickDialog: 6954450c4c2d003a89fbfee48ec8fa4695436b01
+  QuickDialogScript: cb4e9b820521d1a3a9c598b622d7719b590e2b4b
 
-PODFILE CHECKSUM: bd01b79f77449fd479d6fd89e76770bb43106d15
+PODFILE CHECKSUM: 6838e9cce2aa8788785d101503ad8bfd5c106dc1
 
 COCOAPODS: 1.11.3

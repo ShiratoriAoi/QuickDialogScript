@@ -60,7 +60,7 @@ public class QDSNavigationControllerManager {
     
     //initliaze
 	public init(scriptFilename: String) {
-        if let path = Bundle.main.path(forResource: scriptFilename, ofType: "dat"){
+        if let path = Bundle.main.path(forResource: scriptFilename, ofType: "qds"){
             let fileURL = URL(fileURLWithPath: path)
             print("fileURL: \(fileURL)")
             do {

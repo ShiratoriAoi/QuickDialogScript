@@ -34,8 +34,10 @@ import FootlessParser
 //             | "none"      
 //             | "user"    
 //
-//  <name>    ::= <letter>+
-//  <letter>  ::= "a" ~ "z" | "A" ~ "Z"
+//  <name>    ::= "\"" <letter>+ "\"" 
+//                such as "hoge", "hello, world!", or "白鳥アオイ". 
+//  <letter>  ... almost all letters except '"'. 
+//  <tag>     ... number for UIView's tag
 //  <br>      ... <br> means line breaks (and spaces.)
 //  <sp>      ... <sp> means spaces.
 //  
@@ -71,7 +73,6 @@ enum QDSSection {
     case User(key: String)
 }
 
-//TODO: bool float
 enum QDSElement {
 	case Button(title: String, action: QDSAction, tag: Int)
     case Label(title: String, action: QDSAction, tag: Int)
