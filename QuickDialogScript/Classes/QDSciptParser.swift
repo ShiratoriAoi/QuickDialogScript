@@ -25,19 +25,22 @@ import FootlessParser
 //  <txt>  ::= "txt" <sp> <name>
 //  <txp>  ::= "txp" <sp> <name> <sp> <name> 
 //             first name is title, second one is filename
-//  <bool> ::= "bool" <sp> <name> [<sp> <tag>]
+//  <bool> ::= "bool" <sp> <manipulation> [<sp> <tag>]
 //  <user> ::= "user" [<sp> <tag>]
 //
-//  <action> ::= "url"     <sp> <name>
-//             | "sub"     <sp> <name> 
+//  <action> ::= "url" <sp> <name>
+//             | "sub" <sp> <name> 
 //             | "dismiss" 
 //             | "none"      
 //             | "user"    
 //
+//  <manipulation> ::= "ud"   <sp> <name>
+//                   | "user" <sp> <name>
+//
 //  <name>    ::= "\"" <letter>+ "\"" 
 //                such as "hoge", "hello, world!", or "白鳥アオイ". 
 //  <letter>  ... almost all letters except '"'. 
-//  <tag>     ... number for UIView's tag
+//  <tag>     ... number for QElement's tag such as UIView's one.
 //  <br>      ... <br> means line breaks (and spaces.)
 //  <sp>      ... <sp> means spaces.
 //  
@@ -78,7 +81,7 @@ enum QDSElement {
     case Label(title: String, action: QDSAction, tag: Int)
     case Arrow(title: String, action: QDSAction, tag: Int)
     case Icon(title: String, filename: String, action: QDSAction, tag: Int)
-    case Bool(title: String, key: String, tag: Int)
+    case Bool(title: String, manipulation: QDSManipulation, tag: Int)
     case Text(filename: String)
     case TextPage(title: String, filename: String)
     case User(tag: Int)
@@ -89,6 +92,11 @@ enum QDSAction {
 	case dismiss
 	case sub(String)//subDialog
     case none
+    case user
+}
+
+enum QDSManipulation {
+    case ud(String) //user defaults
     case user
 }
 
@@ -131,6 +139,13 @@ class QDSParserManager {
         let action =  url <|> dismiss <|> none <|> sub <|> user
 
         //------------------------------
+        //manipulation
+        //------------------------------
+        let ud = { QDSManipulation.ud($0) } <^> (strMatch("ud") *> name)
+        let userm = { _ in QDSManipulation.user } <^> (strMatch("user"))
+        let manipulation =  ud <|> userm 
+
+        //------------------------------
         //element
         //------------------------------
         func makeButton(title: String, action: QDSAction, tag: Int) -> QDSElement {
@@ -153,11 +168,11 @@ class QDSParserManager {
             return QDSElement.Icon(title: title, filename: filename, action: action, tag: tag)
         }
         let icon = curry(makeIcon) <^> (strMatch("img") *> name) <*> name <*> action <*> tag
-        func makeBool(title: String, key: String, tag: Int) -> QDSElement {
+        func makeBool(title: String, manipulation: QDSManipulation, tag: Int) -> QDSElement {
             print("bool " + title)
-            return QDSElement.Bool(title: title,key: key, tag: tag)
+            return QDSElement.Bool(title: title, manipulation: manipulation, tag: tag)
         }
-        let bool = curry(makeBool) <^> (strMatch("bool") *> name) <*> name <*> tag
+        let bool = curry(makeBool) <^> (strMatch("bool") *> name) <*> manipulation <*> tag
         func makeText(filename: String) -> QDSElement {
             print("txt " + filename)
             return QDSElement.Text(filename: filename)

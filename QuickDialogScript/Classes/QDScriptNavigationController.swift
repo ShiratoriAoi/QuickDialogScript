@@ -13,6 +13,7 @@ import FootlessParser
     func actionFired(tag: Int)
     func generateElement(tag: Int) -> QElement
     func generateSection(key: String) -> QSection?
+    func valueChanged(element: QElement, tag: Int)
     @objc optional func willMove(to quickDialogController: QuickDialogController, key: String)
 }
 
@@ -29,7 +30,10 @@ extension QDSDelegate {
     func generateSection(nav: UINavigationController, key: String) -> QSection? {
         return nil
     }
-    
+
+    func valueChanged(element: QElement, tag: Int) {
+        print(element, tag)
+    }
 }
 
 public class QDSNavigationControllerManager {
@@ -134,15 +138,30 @@ public class QDSNavigationControllerManager {
                     self.actionFired(action: action, tag: tag)
                 }
                 return (btn, tag)
-            case .Bool(let title, let key, let tag):
-                let ud = UserDefaults.standard
-                let old = ud.bool(forKey: key)
-                let bool = QBooleanElement(title: title, boolValue: old)!
-                bool.onSelected = { 
-                    let new = bool.boolValue
-                    ud.set(new, forKey: key)
+            case .Bool(let title, let manipulation, let tag):
+                if case QDSManipulation.ud(let key) = manipulation {
+                    let ud = UserDefaults.standard
+                    let old = ud.bool(forKey: key)
+                    let bool = QBooleanElement(title: title, boolValue: old)!
+                    bool.onSelected = { 
+                        let new = bool.boolValue
+                        ud.set(new, forKey: key)
+                    }
+                    return (bool, tag)
+                } else if case QDSManipulation.user = manipulation {
+                    let elm = delegate?.generateElement(tag: tag)
+                    if let bool = elm as? QBooleanElement {
+                        bool.title = title
+                        bool.onSelected = {
+                            self.delegate?.valueChanged(element: bool, tag: tag)
+                        }
+                        return (bool, tag)
+                    } else {
+                        let lbl = QLabelElement(title: "bool user failed.", value: nil)!
+                        return (lbl, tag)
+                    }
+
                 }
-                return (bool, tag)
             case .Text(let filename):
                 let tmp = filename.components(separatedBy: ".")
                 if let path = Bundle.main.path(forResource: tmp[0], ofType: tmp[1]){
