@@ -8,7 +8,7 @@ PODS:
     - QuickDialog
 
 DEPENDENCIES:
-  - QuickDialogScript (from `../`)
+  - QuickDialogScript (from `https://github.com/ShiratoriAoi/QuickDialogScript.git`)
 
 SPEC REPOS:
   trunk:
@@ -17,13 +17,18 @@ SPEC REPOS:
 
 EXTERNAL SOURCES:
   QuickDialogScript:
-    :path: "../"
+    :git: https://github.com/ShiratoriAoi/QuickDialogScript.git
+
+CHECKOUT OPTIONS:
+  QuickDialogScript:
+    :commit: 17bb3b5c6026e11fb4726500f4e4aa6b95fd1522
+    :git: https://github.com/ShiratoriAoi/QuickDialogScript.git
 
 SPEC CHECKSUMS:
   FootlessParser: 521916d592fa6cba06cfca6f4b5d4f5a2d49175a
   QuickDialog: 6954450c4c2d003a89fbfee48ec8fa4695436b01
   QuickDialogScript: cb4e9b820521d1a3a9c598b622d7719b590e2b4b
 
-PODFILE CHECKSUM: 6838e9cce2aa8788785d101503ad8bfd5c106dc1
+PODFILE CHECKSUM: 11fd571ea8822c07ab84d94c6687e824b912cbd9
 
 COCOAPODS: 1.11.3

@@ -13,7 +13,9 @@ qd "launch" "Example"
     endsec
 
     sec "Settings"
-        bool "Hello, World!" "Example_UserDefaultsKey_Hoge"
+        bool "Hello, World!" ud "Example_UserDefaultsKey_Hoge"
+        bool "Hello, Apple!" user 200
+        bool "Hello, Grape!" user 201
     endsec
 
     sec_user "user_section"

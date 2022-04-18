@@ -42,6 +42,12 @@ class ViewController: UIViewController {
 }
 
 extension ViewController : QDSDelegate {
+    func valueChanged(element: QElement, tag: Int) {
+        if tag == 200 {
+            print(element)
+        }
+    }
+    
     func actionFired(tag: Int) {
         print("user \(tag) pushed.")
     }
@@ -49,8 +55,13 @@ extension ViewController : QDSDelegate {
     //return QElement
     //see documentation for QuickDialog
     func generateElement(tag: Int) -> QElement {
-        let elm = QLabelElement(title: "user \(tag)", value: nil)!
-        return elm
+        if tag == 200 {
+            let bool = QBooleanElement(title: "this value is ignored.", boolValue: false)!
+            return bool
+        } else {
+            let elm = QLabelElement(title: "user \(tag)", value: nil)!
+            return elm
+        }
     }
     
     //return QSection
