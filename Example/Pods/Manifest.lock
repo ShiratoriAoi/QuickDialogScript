@@ -3,32 +3,24 @@ PODS:
   - QuickDialog (1.1.0):
     - QuickDialog/Core (= 1.1.0)
   - QuickDialog/Core (1.1.0)
-  - QuickDialogScript (0.1.0):
+  - QuickDialogScript (1.0.0):
     - FootlessParser (~> 0.5.1)
     - QuickDialog
 
 DEPENDENCIES:
-  - QuickDialogScript (from `https://github.com/ShiratoriAoi/QuickDialogScript.git`)
+  - QuickDialogScript
 
 SPEC REPOS:
   trunk:
     - FootlessParser
     - QuickDialog
-
-EXTERNAL SOURCES:
-  QuickDialogScript:
-    :git: https://github.com/ShiratoriAoi/QuickDialogScript.git
-
-CHECKOUT OPTIONS:
-  QuickDialogScript:
-    :commit: 17bb3b5c6026e11fb4726500f4e4aa6b95fd1522
-    :git: https://github.com/ShiratoriAoi/QuickDialogScript.git
+    - QuickDialogScript
 
 SPEC CHECKSUMS:
   FootlessParser: 521916d592fa6cba06cfca6f4b5d4f5a2d49175a
   QuickDialog: 6954450c4c2d003a89fbfee48ec8fa4695436b01
-  QuickDialogScript: cb4e9b820521d1a3a9c598b622d7719b590e2b4b
+  QuickDialogScript: 5f516d2d934a166734bcbe52cd4421dd6dacdf0c
 
-PODFILE CHECKSUM: 11fd571ea8822c07ab84d94c6687e824b912cbd9
+PODFILE CHECKSUM: 63e5d90be478e316fbd1a3cadd87f24d59bb6858
 
 COCOAPODS: 1.11.3

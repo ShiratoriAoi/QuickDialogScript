@@ -162,6 +162,8 @@ public class QDSNavigationControllerManager {
                     }
 
                 }
+            case .Float(let title, let manipulation, let tag):
+                break
             case .Text(let filename):
                 let tmp = filename.components(separatedBy: ".")
                 if let path = Bundle.main.path(forResource: tmp[0], ofType: tmp[1]){

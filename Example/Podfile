@@ -4,7 +4,7 @@ platform :ios, '13.0'
 
 target 'QuickDialogScript_Example' do
   #pod 'QuickDialogScript', :path => '../'
-  pod 'QuickDialogScript', :git => 'https://github.com/ShiratoriAoi/QuickDialogScript.git'
+  pod 'QuickDialogScript' 
 
   target 'QuickDialogScript_Tests' do
     inherit! :search_paths

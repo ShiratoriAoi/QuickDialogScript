@@ -15,7 +15,7 @@ import FootlessParser
 //               | "sec_user " <name> <br>
 //
 //  <element>  ::= <btn> | <lbl> | <arw> | <img> 
-//               | <txt> | <txp> | <bool> | <user>
+//               | <txt> | <txp> | <bool> | <user> | <float>
 //
 //  <btn>  ::= "btn" <sp> <name> <sp> <action> [<sp> <tag>]
 //  <lbl>  ::= "lbl" <sp> <name> <sp> <action> [<sp> <tag>]
@@ -25,8 +25,9 @@ import FootlessParser
 //  <txt>  ::= "txt" <sp> <name>
 //  <txp>  ::= "txp" <sp> <name> <sp> <name> 
 //             first name is title, second one is filename
-//  <bool> ::= "bool" <sp> <manipulation> [<sp> <tag>]
-//  <user> ::= "user" [<sp> <tag>]
+//  <bool>  ::= "bool"  <sp> <manipulation> [<sp> <tag>]
+//  <float> ::= "float" <sp> <manipulation> [<sp> <tag>]
+//  <user>  ::= "user" [<sp> <tag>]
 //
 //  <action> ::= "url" <sp> <name>
 //             | "sub" <sp> <name> 
@@ -82,6 +83,7 @@ enum QDSElement {
     case Arrow(title: String, action: QDSAction, tag: Int)
     case Icon(title: String, filename: String, action: QDSAction, tag: Int)
     case Bool(title: String, manipulation: QDSManipulation, tag: Int)
+    case Float(title: String, manipulation: QDSManipulation, tag: Int)
     case Text(filename: String)
     case TextPage(title: String, filename: String)
     case User(tag: Int)
@@ -173,6 +175,11 @@ class QDSParserManager {
             return QDSElement.Bool(title: title, manipulation: manipulation, tag: tag)
         }
         let bool = curry(makeBool) <^> (strMatch("bool") *> name) <*> manipulation <*> tag
+        func makeFloat(title: String, manipulation: QDSManipulation, tag: Int) -> QDSElement {
+            print("float " + title)
+            return QDSElement.Float(title: title, manipulation: manipulation, tag: tag)
+        }
+        let float = curry(makeFloat) <^> (strMatch("float") *> name) <*> manipulation <*> tag
         func makeText(filename: String) -> QDSElement {
             print("txt " + filename)
             return QDSElement.Text(filename: filename)
@@ -189,7 +196,7 @@ class QDSParserManager {
         }
         let userElm = makeUserElm <^> (strMatch("user") *> tag)
 
-		let elementParser = button <|> label <|> arrow <|> icon <|> bool <|> text <|> textpage <|>  userElm
+		let elementParser = button <|> label <|> arrow <|> icon <|> bool <|> float <|> text <|> textpage <|>  userElm
 
         //------------------------------
         //section
