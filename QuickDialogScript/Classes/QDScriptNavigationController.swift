@@ -160,10 +160,30 @@ public class QDSNavigationControllerManager {
                         let lbl = QLabelElement(title: "bool user failed.", value: nil)!
                         return (lbl, tag)
                     }
-
                 }
             case .Float(let title, let manipulation, let tag):
-                break
+                if case QDSManipulation.ud(let key) = manipulation {
+                    let ud = UserDefaults.standard
+                    let old = ud.float(forKey: key)
+                    let float = QFloatElement(title: title, value: old)!
+                    float.onValueChanged = { (_: QRootElement?) in
+                        let new = float.floatValue
+                        ud.set(new, forKey: key)
+                    }
+                    return (float, tag)
+                } else if case QDSManipulation.user = manipulation {
+                    let elm = delegate?.generateElement(tag: tag)
+                    if let float = elm as? QFloatElement {
+                        float.title = title
+                        float.onValueChanged = { _ in
+                            self.delegate?.valueChanged(element: float, tag: tag)
+                        }
+                        return (float, tag)
+                    } else {
+                        let lbl = QLabelElement(title: "bool user failed.", value: nil)!
+                        return (lbl, tag)
+                    }
+                }
             case .Text(let filename):
                 let tmp = filename.components(separatedBy: ".")
                 if let path = Bundle.main.path(forResource: tmp[0], ofType: tmp[1]){

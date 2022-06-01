@@ -17,6 +17,10 @@ qd "launch" "Example"
         bool "Hello, Apple!" user 200
         bool "Hello, Grape!" user 201
     endsec
+    
+    sec "new"
+        float "float" ud "Example_UserDefaultKey_Float"
+    endsec
 
     sec_user "user_section"
 
