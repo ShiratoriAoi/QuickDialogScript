@@ -173,7 +173,7 @@ public class QDSNavigationControllerManager {
                     }
                     return (float, tag)
                 } else if case QDSManipulation.user = manipulation {
-                    let float = QFloatElement(title: title, value: 0)!
+                    let float = QFloatElement(title: title, value: Float(0))!
                     float.minimumValue = 0
                     float.maximumValue = 1.0
                     float.onValueChanged = { _ in

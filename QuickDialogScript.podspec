@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
   s.name             = 'QuickDialogScript'
-  s.version          = '1.2.1'
+  s.version          = '1.2.3'
   s.summary          = 'You can make dialogs by text files.'
 
 # This description is used to generate tags and improve search results.
