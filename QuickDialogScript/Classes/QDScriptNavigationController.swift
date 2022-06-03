@@ -58,7 +58,7 @@ public class QDSNavigationControllerManager {
     }
 
     public var rootQDC : QuickDialogController {
-        return navigationController.rootViewController as! QuickDialogController
+        return navigationController.viewControllers[0] as! QuickDialogController
     }
 
     //accessor
