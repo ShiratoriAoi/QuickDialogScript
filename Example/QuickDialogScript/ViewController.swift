@@ -56,7 +56,7 @@ extension ViewController : QDSDelegate {
     //see documentation for QuickDialog
     func generateElement(tag: Int) -> QElement {
         if tag == 200 {
-            let bool = QBooleanElement(title: "User made elm", boolValue: false)!
+            let bool = QBooleanElement(title:"This value is ignored.", boolValue: false)!
             return bool
         } else {
             let elm = QLabelElement(title: "user \(tag)", value: nil)!

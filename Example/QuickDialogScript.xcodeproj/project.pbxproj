@@ -157,9 +157,9 @@
 		6A03C98F893DEB1207DCA68F /* Pods */ = {
 			isa = PBXGroup;
 			children = (
+				A44D5072C117706B3A432BFA /* Pods-QuickDialogScript_Tests.debug.xcconfig */,
 				DD1082AD16885828548572DE /* Pods-QuickDialogScript_Example.debug.xcconfig */,
 				23AD90A7B93FC51C03A8790F /* Pods-QuickDialogScript_Example.release.xcconfig */,
-				A44D5072C117706B3A432BFA /* Pods-QuickDialogScript_Tests.debug.xcconfig */,
 				91D8EF07451F1EA0BA8C7E5E /* Pods-QuickDialogScript_Tests.release.xcconfig */,
 			);
 			path = Pods;

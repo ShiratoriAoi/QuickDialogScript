@@ -57,6 +57,10 @@ public class QDSNavigationControllerManager {
         }
     }
 
+    public var rootQDC : QuickDialogController {
+        return navigationController.rootViewController as! QuickDialogController
+    }
+
     //accessor
     public func element(tag: Int) -> QElement? {
         return elementDic[tag]
