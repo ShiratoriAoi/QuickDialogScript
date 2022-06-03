@@ -153,40 +153,33 @@ public class QDSNavigationControllerManager {
                     }
                     return (bool, tag)
                 } else if case QDSManipulation.user = manipulation {
-                    let elm = delegate?.generateElement(tag: tag)
-                    if let bool = elm as? QBooleanElement {
-                        bool.title = title
-                        bool.onSelected = {
-                            self.delegate?.valueChanged(element: bool, tag: tag)
-                        }
-                        return (bool, tag)
-                    } else {
-                        let lbl = QLabelElement(title: "bool user failed.", value: nil)!
-                        return (lbl, tag)
+                    let bool = QBooleanElement(title: title, boolValue: false)!
+                    bool.onSelected = {
+                        self.delegate?.valueChanged(element: bool, tag: tag)
                     }
+                    return (bool, tag)
                 }
             case .Float(let title, let manipulation, let tag):
                 if case QDSManipulation.ud(let key) = manipulation {
                     let ud = UserDefaults.standard
                     let old = ud.float(forKey: key)
                     let float = QFloatElement(title: title, value: old)!
+                    float.minimumValue = 0
+                    float.maximumValue = 1.0
                     float.onValueChanged = { (_: QRootElement?) in
                         let new = float.floatValue
                         ud.set(new, forKey: key)
+                        print(new)
                     }
                     return (float, tag)
                 } else if case QDSManipulation.user = manipulation {
-                    let elm = delegate?.generateElement(tag: tag)
-                    if let float = elm as? QFloatElement {
-                        float.title = title
-                        float.onValueChanged = { _ in
-                            self.delegate?.valueChanged(element: float, tag: tag)
-                        }
-                        return (float, tag)
-                    } else {
-                        let lbl = QLabelElement(title: "bool user failed.", value: nil)!
-                        return (lbl, tag)
+                    let float = QFloatElement(title: title, value: 0)!
+                    float.minimumValue = 0
+                    float.maximumValue = 1.0
+                    float.onValueChanged = { _ in
+                        self.delegate?.valueChanged(element: float, tag: tag)
                     }
+                    return (float, tag)
                 }
             case .Text(let filename):
                 let tmp = filename.components(separatedBy: ".")
