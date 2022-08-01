@@ -25,8 +25,8 @@ import FootlessParser
 //  <txt>  ::= "txt" <sp> <name>
 //  <txp>  ::= "txp" <sp> <name> <sp> <name> 
 //             first name is title, second one is filename
-//  <bool>  ::= "bool"  <sp> <name> <sp> <manipulation> [<sp> <tag>]
-//  <float> ::= "float" <sp> <name> <sp> <manipulation> [<sp> <tag>]
+//  <bool>  ::= "bool"  <sp> <name> <sp> <manipulation> [<sp> <tag>] //user 初期値false
+//  <float> ::= "float" <sp> <name> <sp> <manipulation> [<sp> <tag>] //user 初期値0, 0~1.0 
 //  <user>  ::= "user" [<sp> <tag>]
 //
 //  <action> ::= "url" <sp> <name>

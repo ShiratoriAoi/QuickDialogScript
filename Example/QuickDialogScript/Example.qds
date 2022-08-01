@@ -9,7 +9,7 @@ qd "launch" "Example"
         btn "no action button"   none
         btn "user action button" user 100
         arw "arrow button"       sub "BLTsandwich"
-        user 200
+        user 101
     endsec
 
     sec "Settings"

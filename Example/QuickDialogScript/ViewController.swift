@@ -55,13 +55,9 @@ extension ViewController : QDSDelegate {
     //return QElement
     //see documentation for QuickDialog
     func generateElement(tag: Int) -> QElement {
-        if tag == 200 {
-            let bool = QBooleanElement(title: "User made elm", boolValue: false)!
-            return bool
-        } else {
-            let elm = QLabelElement(title: "user \(tag)", value: nil)!
-            return elm
-        }
+        let elm = QLabelElement(title: "user \(tag)", value: nil)!
+        return elm
+
     }
     
     //return QSection

@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
   s.name             = 'QuickDialogScript'
-  s.version          = '1.1.0'
+  s.version          = '1.2.3'
   s.summary          = 'You can make dialogs by text files.'
 
 # This description is used to generate tags and improve search results.
@@ -25,7 +25,7 @@ Pod::Spec.new do |s|
   # s.screenshots     = 'www.example.com/screenshots_1', 'www.example.com/screenshots_2'
   s.license          = { :type => 'MIT', :file => 'LICENSE' }
   s.author           = { 'Aoi SHIRATORI' => 'aoy.shiratori@gmail.com' }
-  s.source           = { :git => 'https://github.com/ShiratoriAoi/QuickDialogScript.git' , :branch => 'master'}
+  s.source           = { :git => 'https://github.com/ShiratoriAoi/QuickDialogScript.git' , :tag => s.version}
   s.social_media_url = 'https://twitter.com/ShiratoriAoi'
 
   s.ios.deployment_target = '13.0'
