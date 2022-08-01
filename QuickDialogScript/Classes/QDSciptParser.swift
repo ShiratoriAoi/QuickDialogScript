@@ -25,8 +25,8 @@ import FootlessParser
 //  <txt>  ::= "txt" <sp> <name>
 //  <txp>  ::= "txp" <sp> <name> <sp> <name> 
 //             first name is title, second one is filename
-//  <bool>  ::= "bool"  <sp> <manipulation> [<sp> <tag>]
-//  <float> ::= "float" <sp> <manipulation> [<sp> <tag>]
+//  <bool>  ::= "bool"  <sp> <name> <sp> <manipulation> [<sp> <tag>]
+//  <float> ::= "float" <sp> <name> <sp> <manipulation> [<sp> <tag>]
 //  <user>  ::= "user" [<sp> <tag>]
 //
 //  <action> ::= "url" <sp> <name>
@@ -36,7 +36,7 @@ import FootlessParser
 //             | "user"    
 //
 //  <manipulation> ::= "ud"   <sp> <name>
-//                   | "user" <sp> <name>
+//                   | "user" 
 //
 //  <name>    ::= "\"" <letter>+ "\"" 
 //                such as "hoge", "hello, world!", or "白鳥アオイ". 
@@ -48,8 +48,8 @@ import FootlessParser
 //--------------------------------------------------------------------
 
 precedencegroup MyGroup {
-  higherThan: ApplyGroup
-  associativity: right
+    higherThan: ApplyGroup
+    associativity: right
 }
 
 infix operator ***: MyGroup
@@ -69,7 +69,7 @@ public func *** <T,A,B> (p: Parser<A,B>, q: Parser<T, [A]>) -> Parser<T, B> {
 struct QDSRoot {
     let key  : String
     let title: String
-	let sections: [QDSSection]
+    let sections: [QDSSection]
 }
 
 enum QDSSection {
@@ -78,7 +78,7 @@ enum QDSSection {
 }
 
 enum QDSElement {
-	case Button(title: String, action: QDSAction, tag: Int)
+    case Button(title: String, action: QDSAction, tag: Int)
     case Label(title: String, action: QDSAction, tag: Int)
     case Arrow(title: String, action: QDSAction, tag: Int)
     case Icon(title: String, filename: String, action: QDSAction, tag: Int)
@@ -90,9 +90,9 @@ enum QDSElement {
 }
 
 enum QDSAction {
-	case url(String)
-	case dismiss
-	case sub(String)//subDialog
+    case url(String)
+    case dismiss
+    case sub(String)//subDialog
     case none
     case user
 }
@@ -103,7 +103,7 @@ enum QDSManipulation {
 }
 
 class QDSParserManager {
-	var wordParser: Parser<Character, [String]>!
+    var wordParser: Parser<Character, [String]>!
     var qdsParser:  Parser<String, [QDSRoot]>!
     
     init() {
@@ -115,7 +115,7 @@ class QDSParserManager {
             return "\"" + val + "\"" } <^> (char("\"") *> zeroOrMore(noneOf("\n\"")) <* char("\"") <* zeroOrMore(oneOf(" \n")))
         let words = zeroOrMore(oneOf(" \n")) *> zeroOrMore(word <|> quoteWord)
         let strMatch: ((String)->Parser<String, String>) = { a in satisfy(expect: a, condition: { b in a==b }) }
-		var name: Parser<String, String>!
+        var name: Parser<String, String>!
         name = { String($0.dropLast().dropFirst()) } <^> satisfy(expect: "(name)", condition: { str in
             let a = str.startIndex
             let b = str.index(str.endIndex, offsetBy: -1)
@@ -196,7 +196,7 @@ class QDSParserManager {
         }
         let userElm = makeUserElm <^> (strMatch("user") *> tag)
 
-		let elementParser = button <|> label <|> arrow <|> icon <|> bool <|> float <|> text <|> textpage <|>  userElm
+        let elementParser = button <|> label <|> arrow <|> icon <|> bool <|> float <|> text <|> textpage <|>  userElm
 
         //------------------------------
         //section
@@ -205,7 +205,7 @@ class QDSParserManager {
             print("sec " + title)
             return QDSSection.Script(title: title, elements: elements)
         }
-		let section = curry(makeSection) <^> (strMatch("sec") *> name) <*> (oneOrMore(elementParser) <* strMatch("endsec") )
+        let section = curry(makeSection) <^> (strMatch("sec") *> name) <*> (oneOrMore(elementParser) <* strMatch("endsec") )
         let sec_user = { QDSSection.User(key: $0) } <^> (strMatch("sec_user") *> name)
         let sectionParser = section <|> sec_user
 
@@ -217,7 +217,7 @@ class QDSParserManager {
             return QDSRoot(key: key, title: title, sections: sections)
         }
         let quickDialogParser = curry(makeQuickDialog) <^> (strMatch("qd") *> name) <*> name <*> (oneOrMore(sectionParser) <* strMatch("endqd"))
-		
+        
         //------------------------------
         //dialogs <- [String]
         //------------------------------
