@@ -3,6 +3,10 @@ qd "launch" "Example"
         txt "dat/poem.txt"
         txp "text page" "dat/poem.txt"
     endsec
+    
+//      jhjhhjh
+// comment adk fajlj a
+//  asdfasdf
 
     sec "buttons"
         btn "open sub dialog"    sub "BLTsandwich"

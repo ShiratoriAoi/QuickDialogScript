@@ -49,7 +49,7 @@
 		BEBAB2DDFA0C31BDB905532E /* Pods_QuickDialogScript_Example.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_QuickDialogScript_Example.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		DD1082AD16885828548572DE /* Pods-QuickDialogScript_Example.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-QuickDialogScript_Example.debug.xcconfig"; path = "Target Support Files/Pods-QuickDialogScript_Example/Pods-QuickDialogScript_Example.debug.xcconfig"; sourceTree = "<group>"; };
 		E98DCAFEB43C9B29016903ED /* LICENSE */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = LICENSE; path = ../LICENSE; sourceTree = "<group>"; };
-		F7632EFED693C07057845190 /* QuickDialogScript.podspec */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = QuickDialogScript.podspec; path = ../QuickDialogScript.podspec; sourceTree = "<group>"; };
+		F7632EFED693C07057845190 /* QuickDialogScript.podspec */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = QuickDialogScript.podspec; path = ../QuickDialogScript.podspec; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
 		FA952197A73BD87EFAF0844A /* Pods_QuickDialogScript_Tests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_QuickDialogScript_Tests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -218,10 +218,12 @@
 				TargetAttributes = {
 					607FACCF1AFB9204008FA782 = {
 						CreatedOnToolsVersion = 6.3.1;
+						DevelopmentTeam = F55PQV59U5;
 						LastSwiftMigration = 1320;
 					};
 					607FACE41AFB9204008FA782 = {
 						CreatedOnToolsVersion = 6.3.1;
+						DevelopmentTeam = F55PQV59U5;
 						LastSwiftMigration = 1320;
 						TestTargetID = 607FACCF1AFB9204008FA782;
 					};
@@ -497,6 +499,7 @@
 			baseConfigurationReference = DD1082AD16885828548572DE /* Pods-QuickDialogScript_Example.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				DEVELOPMENT_TEAM = F55PQV59U5;
 				INFOPLIST_FILE = QuickDialogScript/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				MODULE_NAME = ExampleApp;
@@ -512,6 +515,7 @@
 			baseConfigurationReference = 23AD90A7B93FC51C03A8790F /* Pods-QuickDialogScript_Example.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				DEVELOPMENT_TEAM = F55PQV59U5;
 				INFOPLIST_FILE = QuickDialogScript/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				MODULE_NAME = ExampleApp;
@@ -526,6 +530,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = A44D5072C117706B3A432BFA /* Pods-QuickDialogScript_Tests.debug.xcconfig */;
 			buildSettings = {
+				DEVELOPMENT_TEAM = F55PQV59U5;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(PLATFORM_DIR)/Developer/Library/Frameworks",
 					"$(inherited)",
@@ -548,6 +553,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 91D8EF07451F1EA0BA8C7E5E /* Pods-QuickDialogScript_Tests.release.xcconfig */;
 			buildSettings = {
+				DEVELOPMENT_TEAM = F55PQV59U5;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(PLATFORM_DIR)/Developer/Library/Frameworks",
 					"$(inherited)",

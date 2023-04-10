@@ -113,9 +113,10 @@ class QDSParserManager {
         let word = oneOrMore(noneOf(" \n\"")) <* zeroOrMore(oneOf(" \n"))
         let quoteWord = { (val:String) in
             return "\"" + val + "\"" } <^> (char("\"") *> zeroOrMore(noneOf("\n\"")) <* char("\"") <* zeroOrMore(oneOf(" \n")))
-        let words = zeroOrMore(oneOf(" \n")) *> zeroOrMore(word <|> quoteWord)
+        let commentout = char("/") *> char("/") *> zeroOrMore(noneOf("\n")) <* zeroOrMore(oneOf(" \n"))
+        let words = zeroOrMore(oneOf(" \n")) *> zeroOrMore(zeroOrMore(commentout) *> (word <|> quoteWord)) <* zeroOrMore(commentout)
         let strMatch: ((String)->Parser<String, String>) = { a in satisfy(expect: a, condition: { b in a==b }) }
-        var name: Parser<String, String>!
+        var name: Parser<String, String>
         name = { String($0.dropLast().dropFirst()) } <^> satisfy(expect: "(name)", condition: { str in
             let a = str.startIndex
             let b = str.index(str.endIndex, offsetBy: -1)

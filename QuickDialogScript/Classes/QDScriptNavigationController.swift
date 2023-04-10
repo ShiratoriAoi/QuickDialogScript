@@ -73,11 +73,10 @@ public class QDSNavigationControllerManager {
             print("fileURL: \(fileURL)")
             do {
                 let manager = QDSParserManager()
-                
                 let text = try String(contentsOf: fileURL, encoding: .utf8)
                 let words = try parse(manager.wordParser, text)
                 print("successed word parsing, filename: \(scriptFilename)")
-                
+                print(words)
                 qds = try parse(manager.qdsParser, words)
             } catch {
                 qds = []
